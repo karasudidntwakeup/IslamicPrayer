@@ -1,1 +1,1 @@
-# IslamicPrayer
+# IslamicPrayerNotification
