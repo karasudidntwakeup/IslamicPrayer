@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h> // For system calls
 
 #define MAX_PRAYERS 6
 #define TIME_STR_LEN 9
@@ -52,14 +53,14 @@ int main() {
             int minutes = (remaining_seconds % 3600) / 60;
             int seconds = remaining_seconds % 60;
 
-            // Output the result
-            printf("Next prayer: %s\n", prayers[i].name);
-            printf("Remaining time: %02d:%02d:%02d\n", hours, minutes, seconds);
+            // Prepare and send the notification using Dunst
+            char command[256];
+            snprintf(command, sizeof(command), "notify-send 'Next prayer: %s' 'Remaining time: %02d:%02d:%02d'", prayers[i].name, hours, minutes, seconds);
+            system(command);
             return 0; // Exit after finding the next prayer
         }
     }
-
-    // If no next prayer found, assume it's the last prayer
-    printf("No upcoming prayers found.\n");
+// If no next prayer found
+system("notify-send 'No upcoming prayers found.' ''");
     return 0;
 }
